@@ -87,7 +87,11 @@ public class EyAPF extends JFrame {
 		
 		JPanel botonesPnl = new JPanel();
 		botonesPnl.setLayout(new GridBagLayout());
-						
+
+		/**
+		* A continuación se agregan al panel los labels, textfields
+		* y botones de la vista.
+		*/
 		AgregarPL = new JLabel ("Fecha de hoy:", JLabel.LEFT);
 		c.gridheight = 1;
 		c.gridwidth = 3;
@@ -323,13 +327,23 @@ public class EyAPF extends JFrame {
 		c. gridx = 4;
 		c. gridy = 15;
 		panel.add(restanteInicial, c);
-							
+
+		/**
+		* Lógica para el cálculo por monto sugerido
+		*/
 		AgregarP = new JButton ("Cálculo 2");
 		AgregarP.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent event) {
+				/**
+				* En caso de que algún textfield requerido no se haya llenado
+				* mostrar error, sino realizar el cálculo.
+				*/
 				if (dia2.getText().isEmpty() || mes2.getText().isEmpty() || anio2.getText().isEmpty()
 						|| montoLetra.getText().isEmpty() || porcentajeDesc.getText().isEmpty()|| montoInicial.getText().isEmpty()) {
-									
+							
+					/**
+					* Mostrar mensaje de error en nuevo frame.
+					*/
 					JFrame Pedidos = new JFrame();
 					Pedidos.setSize(600, 300);
 					Pedidos.setTitle("Revisar");
@@ -380,6 +394,10 @@ public class EyAPF extends JFrame {
 					Pedidos.add(Scroll);
 					Pedidos.setVisible(true);
 				} else {
+					
+					/**
+					* Realizar cálculo por monto sugerido y desplegar output.
+					*/
 
 					mesesAtraso.setText("");
 					liquidoPrimeraLetra.setText("");
@@ -485,13 +503,23 @@ public class EyAPF extends JFrame {
 		c. gridx = 4;
 		c. gridy = 12;
 		panel.add(AgregarP, c);
-				
+		
+		/**
+		* Lógica para cálculo por número de letras a pagar.
+		*/
 		Pedidos = new JButton ("Cálculo 1");
 		Pedidos.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent event) {
+				/**
+				* Verificar que todos los campos requeridos se hayan
+				* llenado o mostrar mensaje de error.
+				*/
 				if (dia2.getText().isEmpty() || mes2.getText().isEmpty() || anio2.getText().isEmpty()
 						|| montoLetra.getText().isEmpty() || porcentajeDesc.getText().isEmpty()|| letrasPagar.getText().isEmpty()) {
 					
+					/**
+					* Abrir nuevo frame mostrando el mensaje de error.
+					*/
 					JFrame Pedidos = new JFrame();
 					Pedidos.setSize(600, 300);
 					Pedidos.setTitle("Revisar");
@@ -544,6 +572,10 @@ public class EyAPF extends JFrame {
 					Pedidos.setVisible(true);
 	
 				} else {
+					/**
+					* Realizar cálculo por número de letras a pagar y
+					* desplegar output.
+					*/
 
 					intereses.setText("");
 					restanteInicial.setText("");
@@ -615,6 +647,9 @@ public class EyAPF extends JFrame {
 		panel.add(Pedidos, c);
     }
     
+	/**
+	* Función de redondeo por número de digitos decimales.
+	*/
     public static double round(double num, int digits) {
 
 		// epsilon correction
