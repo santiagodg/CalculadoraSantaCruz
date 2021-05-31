@@ -3,8 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-//package eyap.f;
+package eyap.f;
 
+
+/**
+ * Utilizamos las librerías AWT, Swing y java.time para implementar la solución. 
+ */
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
@@ -14,11 +18,18 @@ import java.text.*;
 import java.time.*;
 
 /**
- *
- * @author jchv99
+ * EyaPF
+ * 
+ * Clase principal de la calculadora.
+ * @author jchv99, santiagodg
  */
 public class EyAPF extends JFrame {
     
+	/**
+	 * Declaración de variables.
+	 * 
+	 * 
+	 */
     private JButton Pedidos, AgregarP, AgregarM, EditarP, EditarM, EliminarP, EliminarM, ListaP, ListaM, Guardar, Salir;
 	private JLabel AgregarPL, dia, mes, anio, mesesAtraso, totalInteres, totalLetrasPagadas, intereses, restanteInicial, liquidoPrimeraLetra;
 	
@@ -256,56 +267,61 @@ public class EyAPF extends JFrame {
 		c.gridwidth = 2;
 		c. gridx = 5;
 		c. gridy = 10;
-							
 		panel.add(montoInicial, c);
 		
 		anio = new JLabel (" ", JLabel.LEFT);
 		c.gridwidth = 4;
 		c. gridx = 0;
-		c. gridy = 12;
+		c. gridy = 13;
+		panel.add(anio, c);
+		
+		anio = new JLabel (" ", JLabel.LEFT);
+		c.gridwidth = 4;
+		c. gridx = 0;
+		c. gridy = 11;
 		panel.add(anio, c);
 
 		liquidoPrimeraLetra = new JLabel ("", JLabel.LEFT);
 		c.gridwidth = 4;
 		c. gridx = 0;
-		c. gridy = 13;
+		c. gridy = 14;
 		panel.add(liquidoPrimeraLetra, c);
 
 		mesesAtraso = new JLabel ("", JLabel.LEFT);
 		c.gridwidth = 4;
 		c. gridx = 0;
-		c. gridy = 14;
+		c. gridy = 15;
 		panel.add(mesesAtraso, c);
 							
 		totalInteres = new JLabel ("", JLabel.LEFT);
 		c.gridwidth = 2;
 		c. gridx = 0;
-		c. gridy = 15;
+		c. gridy = 16;
 		panel.add(totalInteres, c);
 							
 		totalLetrasPagadas = new JLabel ("", JLabel.LEFT);
 		c.gridwidth = 2;
 		c. gridx = 0;
-		c. gridy = 16;
+		c. gridy = 17;
 		panel.add(totalLetrasPagadas, c);
 							
 		// Revisar 2
 		anio = new JLabel(" ", JLabel.LEFT);
 		c.gridwidth = 4;
 		c. gridx = 3;
-		c. gridy = 12;
+		c. gridy = 13;
 		panel.add(anio, c);
 
 		intereses = new JLabel ("", JLabel.LEFT);
 		c.gridwidth = 2;
 		c. gridx = 4;
-		c. gridy = 13;
+		c. gridy = 14;
 		panel.add(intereses, c);
 							
 		restanteInicial = new JLabel ("", JLabel.LEFT);
 		c.gridwidth = 2;
 		c. gridx = 4;
-		c. gridy = 14;
+		c. gridy = 15;
 		panel.add(restanteInicial, c);
 							
 		AgregarP = new JButton ("Cálculo 2");
@@ -334,7 +350,7 @@ public class EyAPF extends JFrame {
 					Scroll = new JScrollPane();
 					Scroll.setBounds(200, 200, 200, 200);
 					
-					//Si faltan datos aparece este mensaje
+					// Si faltan datos aparece este mensaje
 					Text = "Faltan datos, favor de introducirlos";
 																	
 					anio = new JLabel ("Faltan datos, favor de introducirlos", JLabel.CENTER);
@@ -396,16 +412,16 @@ public class EyAPF extends JFrame {
 					
 					double totalLetra = 0;
 					double interes = 0;
-					double restante = montoIn;
+					double restante = montoIn + abonado;
 					double totalFinal = 0;
 
 					if (desc > 0) {
 						interes = (mensualidad * 0.03) * (1 - desc / 100);
 						interes = round(interes, 3);
-						intereses.setText("Interés moratorio por mes con descuento: $ " + interes);
+						intereses.setText("Interés moratorio por mes con descuento: $ " + round(interes, 3));
 					} else {
 						interes = round((mensualidad * 0.03), 3);
-						intereses.setText("Interés moratorio por mes: $ " + interes);
+						intereses.setText("Interés moratorio por mes: $ " + round(interes, 3));
 					}
 
 					String temp = "";
@@ -434,18 +450,23 @@ public class EyAPF extends JFrame {
 						
 						if(restante < totalLetra){
 							double totalLetraSig;
-							// if (abonado == 0) {
-								totalLetraSig = (totalLetra - interes) - round(restante, 3);
-							// } else {
-							// 	totalLetraSig = (totalLetra - interes) - round(restante, 3) + abonado;
-							// }
+							if (cantMeses == 0) {
+								totalLetraSig = totalLetra - restante;
+							} else {
+								totalLetraSig = (totalLetra - interes) - restante;
+							}
 
 							temp += "\nSiguiente letra:" + "\n";
-							temp += "Abono a próxima letra: $ " + round(restante + abonado, 3)  + "\n";
-							temp += "Total de proxima letra: $ " + round(totalLetra - interes, 3) + "\n";
-							temp += "Total para liquidar la proxima letra: $ " + round(totalLetraSig - abonado, 3) + "\n";
+							temp += "Abono a próxima letra: $ " + round(restante, 3)  + "\n";
+							
+							if (cantMeses == 0) {
+								temp += "Total de proxima letra: $ " + round(totalLetra, 3) + "\n";
+							} else {
+								temp += "Total de proxima letra: $ " + round(totalLetra - interes, 3) + "\n";
+							}
+							
+							temp += "Total para liquidar la proxima letra: $ " + round(totalLetraSig, 3) + "\n";
 							temp += "\n---------------------------" + "\n";
-							// temp += "\nNúmero de letras pagadas:" + i + "\n";
 							temp += "\nTotal pagado: $ " + round(montoIn, 3) + "\n";
 							
 							break;
@@ -462,7 +483,7 @@ public class EyAPF extends JFrame {
 		c. fill = GridBagConstraints. HORIZONTAL;
 		c.gridwidth = 2;
 		c. gridx = 4;
-		c. gridy = 11;
+		c. gridy = 12;
 		panel.add(AgregarP, c);
 				
 		Pedidos = new JButton ("Cálculo 1");
@@ -571,13 +592,13 @@ public class EyAPF extends JFrame {
 					if (desc > 0) {
 						interes = (mensualidad * 0.03) * (1 - desc/100);
 						interes = round(interes, 3);
-						liquidoPrimeraLetra.setText("Liquido primera letra con: $ " + round(mensualidad + (interes * cantMeses) - abonado, 3));
-						totalInteres.setText("Total intereses moratorios con descuento: $ " + interes * meses2);
+						liquidoPrimeraLetra.setText("Liquidó primera letra con: $ " + round(mensualidad + (interes * cantMeses) - abonado, 3));
+						totalInteres.setText("Total intereses moratorios con descuento: $ " + round(interes * meses2, 3));
 						totalLetra = ((mensualidad * Integer.parseInt(letrasPagar.getText())) + (interes * meses2));
 					}else{
 						interes = round((mensualidad * 0.03), 3);
-						liquidoPrimeraLetra.setText("Liquido primera letra con: $ " + round(mensualidad + (interes * cantMeses) - abonado, 3));
-						totalInteres.setText("Total intereses moratorios: $ " + interes * meses2);
+						liquidoPrimeraLetra.setText("Liquidó primera letra con: $ " + round(mensualidad + (interes * cantMeses) - abonado, 3));
+						totalInteres.setText("Total intereses moratorios: $ " + round(interes * meses2, 3));
 						totalLetra = ((mensualidad * Integer.parseInt(letrasPagar.getText())) + (interes * meses2));
 					}
 					
@@ -590,7 +611,7 @@ public class EyAPF extends JFrame {
 		c. fill = GridBagConstraints. HORIZONTAL;
 		c.gridwidth = 1;
 		c.gridx = 1;
-		c.gridy = 11;
+		c.gridy = 12;
 		panel.add(Pedidos, c);
     }
     
