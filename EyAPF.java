@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-// package eyap.f;
+//package eyap.f;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -20,7 +20,7 @@ import java.time.*;
 public class EyAPF extends JFrame {
     
     private JButton Pedidos, AgregarP, AgregarM, EditarP, EditarM, EliminarP, EliminarM, ListaP, ListaM, Guardar, Salir;
-	private JLabel AgregarPL, dia, mes, anio, mesesAtraso, totalInteres, totalLetrasPagadas, intereses, restanteInicial;
+	private JLabel AgregarPL, dia, mes, anio, mesesAtraso, totalInteres, totalLetrasPagadas, intereses, restanteInicial, liquidoPrimeraLetra;
 	
 	private JLabel ID, Nombre, Cantidad, Precio, Tela, CantidadT, tip, tip1; 
 	//private JTextField IDPedidos;
@@ -34,7 +34,7 @@ public class EyAPF extends JFrame {
 	private double PrecioFin, CantMatFin;
 	private String NombreFin, TelaFin, MaterialesCant, Text, TextTenemos, TextNecesitamos, dato, dato2;
 	
-	private JTextArea dia1, mes1, anio1, dia2, mes2, anio2, letrasPagar, montoLetra, porcentajeDesc, IDPedidos, montoInicial ;
+	private JTextField dia1, mes1, anio1, dia2, mes2, anio2, letrasPagar, montoLetra, porcentajeDesc, IDPedidos, montoInicial, abonoPrevio;
 
     /**
      * @param args the command line arguments
@@ -52,7 +52,7 @@ public class EyAPF extends JFrame {
     }
     
     EyAPF() {
-		setSize(600, 700);
+		setSize(800, 700);
 
 		//Titulo de la ventana
 		setTitle("Calculadora Santa Cruz");
@@ -77,34 +77,82 @@ public class EyAPF extends JFrame {
 		JPanel botonesPnl = new JPanel();
 		botonesPnl.setLayout(new GridBagLayout());
 						
-						
-								
-		AgregarPL = new JLabel ("Fecha de vencimiento de primera letra por pagar", JLabel.LEFT);
+		AgregarPL = new JLabel ("Fecha de hoy:", JLabel.LEFT);
 		c.gridheight = 1;
 		c.gridwidth = 3;
-		c. gridx = 0;
-		c. gridy = 3;
+		c.gridx = 0;
+		c.gridy = 0;
+		c.weightx = 0.7;
 		panel.add(AgregarPL, c);
 								
 		dia = new JLabel ("Día", JLabel.CENTER);
 		c.gridwidth = 1;
-		c. gridx = 0;
-		c. gridy = 4;
+		c.gridx = 0;
+		c.gridy = 1;
 		panel.add(dia, c);
 						
 		mes = new JLabel ("Mes", JLabel.CENTER);
 		c.gridwidth = 1;
-		c. gridx = 1;
-		c. gridy = 4;
+		c.gridx = 1;
+		c.gridy = 1;
 		panel.add(mes, c);
 							
 		anio = new JLabel ("Año", JLabel.CENTER);
 		c.gridwidth = 1;
+		c.gridx = 2;
+		c.gridy = 1;
+		panel.add(anio, c);
+
+		dia1 = new JTextField(16);
+		dia1.setBorder(border);
+		c. fill = GridBagConstraints.HORIZONTAL;
+		c.gridwidth = 1;
+		c. gridx = 0;
+		c. gridy = 2;
+		panel.add(dia1, c);
+							
+		mes1 = new JTextField(34);
+		mes1.setBorder(border);
+		c. fill = GridBagConstraints.BOTH;
+		c.gridwidth = 1;
+		c. gridx = 1;
+		c. gridy = 2;
+		panel.add(mes1, c);
+							
+		anio1 = new JTextField(16);
+		anio1.setBorder(border);
+		c. fill = GridBagConstraints.HORIZONTAL;
+		c.gridwidth = 1;
 		c. gridx = 2;
-		c. gridy = 4;
+		c. gridy = 2;
+		panel.add(anio1, c);
+								
+		AgregarPL = new JLabel ("Fecha de vencimiento de primera letra por pagar:", JLabel.LEFT);
+		c.gridheight = 1;
+		c.gridwidth = 5;
+		c.gridx = 0;
+		c.gridy = 3;
+		panel.add(AgregarPL, c);
+								
+		dia = new JLabel ("Día", JLabel.CENTER);
+		c.gridwidth = 1;
+		c.gridx = 0;
+		c.gridy = 4;
+		panel.add(dia, c);
+						
+		mes = new JLabel ("Mes", JLabel.CENTER);
+		c.gridwidth = 1;
+		c.gridx = 1;
+		c.gridy = 4;
+		panel.add(mes, c);
+							
+		anio = new JLabel ("Año", JLabel.CENTER);
+		c.gridwidth = 1;
+		c.gridx = 2;
+		c.gridy = 4;
 		panel.add(anio, c);
 							
-		dia2 = new JTextArea ();
+		dia2 = new JTextField(16);
 		dia2.setBorder(border);
 		c. fill = GridBagConstraints. HORIZONTAL;
 		c.gridwidth = 1;
@@ -112,7 +160,7 @@ public class EyAPF extends JFrame {
 		c. gridy = 5;
 		panel.add(dia2, c);
 							
-		mes2 = new JTextArea ();
+		mes2 = new JTextField(16);
 		mes2.setBorder(border);
 		c. fill = GridBagConstraints. HORIZONTAL;
 		c.gridwidth = 1;
@@ -120,15 +168,13 @@ public class EyAPF extends JFrame {
 		c. gridy = 5;
 		panel.add(mes2, c);
 							
-		anio2 = new JTextArea ();
+		anio2 = new JTextField(16);
 		anio2.setBorder(border);
 		c. fill = GridBagConstraints. HORIZONTAL;
 		c.gridwidth = 1;
 		c. gridx = 2;
 		c. gridy = 5;
 		panel.add(anio2, c);
-					
-					
 							
 		anio = new JLabel ("Monto de la letra:", JLabel.LEFT);
 		c.gridwidth = 2;
@@ -136,7 +182,7 @@ public class EyAPF extends JFrame {
 		c. gridy = 6;
 		panel.add(anio, c);
 							
-		montoLetra = new JTextArea ();
+		montoLetra = new JTextField(16);
 		montoLetra.setBorder(border);
 		c. fill = GridBagConstraints. HORIZONTAL;
 		c.gridwidth = 1;
@@ -149,8 +195,22 @@ public class EyAPF extends JFrame {
 		c. gridx = 0;
 		c. gridy = 7;
 		panel.add(anio, c);
+
+		anio = new JLabel ("Abono previo:", JLabel.LEFT);
+		c.gridwidth = 2;
+		c. gridx = 0;
+		c. gridy = 8;
+		panel.add(anio, c);
+
+		abonoPrevio = new JTextField(16);
+		abonoPrevio.setBorder(border);
+		c. fill = GridBagConstraints. HORIZONTAL;
+		c.gridwidth = 1;
+		c. gridx = 2;
+		c. gridy = 8;
+		panel.add(abonoPrevio, c);
 							
-		porcentajeDesc = new JTextArea ();
+		porcentajeDesc = new JTextField(16);
 		porcentajeDesc.setBorder(border);
 		c. fill = GridBagConstraints. HORIZONTAL;
 		c.gridwidth = 1;
@@ -159,71 +219,93 @@ public class EyAPF extends JFrame {
 		panel.add(porcentajeDesc, c);
 							
 		anio = new JLabel ("Número de letras por pagar:", JLabel.LEFT);
-		c.gridwidth = 1;
+		c.gridwidth = 2;
 		c. gridx = 0;
-		c. gridy = 8;
+		c. gridy = 10;
 		panel.add(anio, c);
 							
-		letrasPagar = new JTextArea ();
+		letrasPagar = new JTextField(16);
 		letrasPagar.setBorder(border);
 		c. fill = GridBagConstraints. HORIZONTAL;
 		c.gridwidth = 1;
-		c. gridx = 1;
-		c. gridy = 8;
+		c. gridx = 2;
+		c. gridy = 10;
 		panel.add(letrasPagar, c);
+
+		anio = new JLabel ("              ", JLabel.CENTER);
+		c.gridwidth = 1;
+		c. gridx = 3;
+		c. gridy = 9;
+		panel.add(anio, c);
 							
 		anio = new JLabel ("                    ", JLabel.CENTER);
 		c.gridwidth = 1;
-		c. gridx = 4;
-		c. gridy = 7;
+		c. gridx = 5;
+		c. gridy = 9;
 		panel.add(anio, c);
-							
-							
+
 		anio = new JLabel ("Monto sugerido:", JLabel.LEFT);
 		c.gridwidth = 1;
-		c. gridx = 3;
-		c. gridy = 8;
+		c. gridx = 4;
+		c. gridy = 10;
 		panel.add(anio, c);
 							
-		montoInicial = new JTextArea ();
+		montoInicial = new JTextField(16);
 		montoInicial.setBorder(border);
 		c. fill = GridBagConstraints. HORIZONTAL;
 		c.gridwidth = 2;
-		c. gridx = 4;
-		c. gridy = 8;
+		c. gridx = 5;
+		c. gridy = 10;
 							
 		panel.add(montoInicial, c);
-						
-							
+		
+		anio = new JLabel (" ", JLabel.LEFT);
+		c.gridwidth = 4;
+		c. gridx = 0;
+		c. gridy = 12;
+		panel.add(anio, c);
+
+		liquidoPrimeraLetra = new JLabel ("", JLabel.LEFT);
+		c.gridwidth = 4;
+		c. gridx = 0;
+		c. gridy = 13;
+		panel.add(liquidoPrimeraLetra, c);
+
 		mesesAtraso = new JLabel ("", JLabel.LEFT);
 		c.gridwidth = 4;
 		c. gridx = 0;
-		c. gridy = 10;
+		c. gridy = 14;
 		panel.add(mesesAtraso, c);
 							
 		totalInteres = new JLabel ("", JLabel.LEFT);
 		c.gridwidth = 2;
 		c. gridx = 0;
-		c. gridy = 11;
+		c. gridy = 15;
 		panel.add(totalInteres, c);
 							
 		totalLetrasPagadas = new JLabel ("", JLabel.LEFT);
 		c.gridwidth = 2;
 		c. gridx = 0;
-		c. gridy = 12;
+		c. gridy = 16;
 		panel.add(totalLetrasPagadas, c);
 							
 		// Revisar 2
-		intereses = new JLabel ("", JLabel.LEFT);
+		anio = new JLabel(" ", JLabel.LEFT);
 		c.gridwidth = 4;
 		c. gridx = 3;
-		c. gridy = 10;
+		c. gridy = 12;
+		panel.add(anio, c);
+
+		intereses = new JLabel ("", JLabel.LEFT);
+		c.gridwidth = 2;
+		c. gridx = 4;
+		c. gridy = 13;
 		panel.add(intereses, c);
 							
 		restanteInicial = new JLabel ("", JLabel.LEFT);
-		c.gridwidth = 4;
-		c. gridx = 3;
-		c. gridy = 11;
+		c.gridwidth = 2;
+		c. gridx = 4;
+		c. gridy = 14;
 		panel.add(restanteInicial, c);
 							
 		AgregarP = new JButton ("Cálculo 2");
@@ -256,99 +338,121 @@ public class EyAPF extends JFrame {
 					Text = "Faltan datos, favor de introducirlos";
 																	
 					anio = new JLabel ("Faltan datos, favor de introducirlos", JLabel.CENTER);
-														c.gridwidth = 4;
-														c. gridx = 0;
-														c. gridy = 0;
-														panel.add(anio, c);
+					c.gridwidth = 4;
+					c. gridx = 0;
+					c. gridy = 0;
+					panel.add(anio, c);
 					botones.add(anio, c);
 												
-												Salir = new JButton ("Salir");
-												Salir.addActionListener(new ActionListener()
-												{
-												public void actionPerformed(ActionEvent event)
-												{
-														Pedidos.dispose();
+					Salir = new JButton ("Salir");
+					Salir.addActionListener(new ActionListener()
+					{
+					public void actionPerformed(ActionEvent event)
+					{
+							Pedidos.dispose();
 
-												} });
-												c. fill = GridBagConstraints. CENTER;
-												c.gridwidth = 4;
-												c. gridx = 1;
-												c. gridy = 1;
-												botones.add(Salir, c);
-					
-					
-					
+					} });
+					c. fill = GridBagConstraints. CENTER;
+					c.gridwidth = 4;
+					c. gridx = 1;
+					c. gridy = 1;
+					botones.add(Salir, c);
+
 					Scroll.setViewportView(botones);
 
 					
 					Pedidos.add(Scroll);
 					Pedidos.setVisible(true);
 				} else {
-									
-					LocalDate fechaHoy = LocalDate.now();
+
+					mesesAtraso.setText("");
+					liquidoPrimeraLetra.setText("");
+					totalInteres.setText("");
+					totalLetrasPagadas.setText("");
+
+					LocalDate fechaHoy;
+					if (dia1.getText().isEmpty() && mes1.getText().isEmpty() && anio1.getText().isEmpty()) {
+						fechaHoy = LocalDate.now();
+					} else {
+						fechaHoy = LocalDate.of(Integer.parseInt(anio1.getText()), Integer.parseInt(mes1.getText()), Integer.parseInt(dia1.getText()));
+					}
+
 					LocalDate fechaCarta = LocalDate.of(Integer.parseInt(anio2.getText()), Integer.parseInt(mes2.getText()), Integer.parseInt(dia2.getText()));
 					Period interval = Period.between(fechaCarta, fechaHoy);
 						
 					// cantMeses = mesesAtraso
 					
-					int cantMeses =  interval.getMonths() + (interval.getYears()*12);
-					double totalLetra = 0;
+					int cantMeses =  interval.getMonths() + (interval.getYears() * 12);
 															
-					if(interval.getDays()>7){
+					if (interval.getDays() > 7) {
 						cantMeses++;
 					}
 					
 					double desc = Double.parseDouble(porcentajeDesc.getText());
 					double mensualidad = Double.parseDouble(montoLetra.getText());
+					double abonado = Double.parseDouble(abonoPrevio.getText());
+
+					double montoIn = Double.parseDouble(montoInicial.getText());
+					
+					double totalLetra = 0;
 					double interes = 0;
-					
-					if(desc > 0){
-						interes = (mensualidad * 0.03) * (1 - desc/100);
-						interes = round(interes, 3);
-					}else{
-						interes = round((mensualidad * 0.03), 3);
-					}
-					String temp = "";
-					
-					intereses.setText("Interés por mes: $ " + interes); 
-					
-					double restante = Double.parseDouble(montoInicial.getText());
+					double restante = montoIn;
 					double totalFinal = 0;
+
+					if (desc > 0) {
+						interes = (mensualidad * 0.03) * (1 - desc / 100);
+						interes = round(interes, 3);
+						intereses.setText("Interés moratorio por mes con descuento: $ " + interes);
+					} else {
+						interes = round((mensualidad * 0.03), 3);
+						intereses.setText("Interés moratorio por mes: $ " + interes);
+					}
+
+					String temp = "";
 					int i = 0;
-					
-					
-					while(restante >=0){
+					boolean primera = true;
+					while (restante >= 0) {
 						i++;
 						totalLetra = mensualidad + (interes * cantMeses);
 						restante -= totalLetra; 
 						temp += "\nMeses de atraso: " + cantMeses;
-						temp += "\nTotal de letra: " + i + ": $" + round(totalLetra,2) + "\n";
+
+						if (primera) {
+							temp += "\nTotal de letra (" + i + "): $ " + round(totalLetra - abonado, 3) + "\n";
+							primera = false;
+						} else {
+							temp += "\nTotal de letra (" + i + "): $ " + round(totalLetra, 3) + "\n";
+						}
 						
-						
-						if(cantMeses <= 0){
+						if (cantMeses <= 0) {
 							cantMeses = 0;
-						}else{
+						} else {
 							cantMeses -= 1;
 						}
 						
 						totalFinal += totalLetra;
 						
 						if(restante < totalLetra){
-							double totalLetraSig = (totalLetra - interes) - round(restante, 2);
-							temp += "Total de proxima letra: $" + (totalLetra - interes) + "\n";
-							temp += "Total para liquidar la proxima letra: $" + round(totalLetraSig, 2) + "\n";
+							double totalLetraSig;
+							// if (abonado == 0) {
+								totalLetraSig = (totalLetra - interes) - round(restante, 3);
+							// } else {
+							// 	totalLetraSig = (totalLetra - interes) - round(restante, 3) + abonado;
+							// }
+
+							temp += "\nSiguiente letra:" + "\n";
+							temp += "Abono a próxima letra: $ " + round(restante + abonado, 3)  + "\n";
+							temp += "Total de proxima letra: $ " + round(totalLetra - interes, 3) + "\n";
+							temp += "Total para liquidar la proxima letra: $ " + round(totalLetraSig - abonado, 3) + "\n";
 							temp += "\n---------------------------" + "\n";
-							temp += "\nNúmero de letras pagadas:" + i + "\n";
-							temp += "Total de letras pagadas: $" + round(totalFinal, 2) + "\n";
-							temp += "\nSiguiente Letra:" + "\n";
-							temp += "Abono a próxima letra: $" + round(restante, 2) + "\n";
-							
+							// temp += "\nNúmero de letras pagadas:" + i + "\n";
+							temp += "\nTotal pagado: $ " + round(montoIn, 3) + "\n";
 							
 							break;
 						}
 						
 					}
-					System.out.println(temp);
+					// System.out.println(temp);
 					restanteInicial.setText("<html>" + temp.replaceAll("\n", "<br/>") + "</html>");					
 				}
 								
@@ -357,11 +461,11 @@ public class EyAPF extends JFrame {
 
 		c. fill = GridBagConstraints. HORIZONTAL;
 		c.gridwidth = 2;
-		c. gridx = 3;
-		c. gridy = 9;
+		c. gridx = 4;
+		c. gridy = 11;
 		panel.add(AgregarP, c);
 				
-		Pedidos = new JButton ("Revisar");
+		Pedidos = new JButton ("Cálculo 1");
 		Pedidos.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent event) {
 				if (dia2.getText().isEmpty() || mes2.getText().isEmpty() || anio2.getText().isEmpty()
@@ -391,25 +495,25 @@ public class EyAPF extends JFrame {
 					Text = "Faltan datos, favor de introducirlos";
 																	
 					anio = new JLabel ("Faltan datos, favor de introducirlos", JLabel.CENTER);
-														c.gridwidth = 4;
-														c. gridx = 0;
-														c. gridy = 0;
-														panel.add(anio, c);
+					c.gridwidth = 4;
+					c. gridx = 0;
+					c. gridy = 0;
+					panel.add(anio, c);
 					botones.add(anio, c);
 												
-												Salir = new JButton ("Salir");
-												Salir.addActionListener(new ActionListener()
-												{
-												public void actionPerformed(ActionEvent event)
-												{
-														Pedidos.dispose();
+					Salir = new JButton ("Salir");
+					Salir.addActionListener(new ActionListener()
+					{
+					public void actionPerformed(ActionEvent event)
+					{
+							Pedidos.dispose();
 
-												} });
-												c. fill = GridBagConstraints. CENTER;
-												c.gridwidth = 4;
-												c. gridx = 1;
-												c. gridy = 1;
-												botones.add(Salir, c);
+					} });
+					c. fill = GridBagConstraints. CENTER;
+					c.gridwidth = 4;
+					c. gridx = 1;
+					c. gridy = 1;
+					botones.add(Salir, c);
 					
 					
 					
@@ -419,12 +523,21 @@ public class EyAPF extends JFrame {
 					Pedidos.setVisible(true);
 	
 				} else {
+
+					intereses.setText("");
+					restanteInicial.setText("");
 										
-					LocalDate fechaHoy = LocalDate.now();
+					LocalDate fechaHoy;
+					if (dia1.getText().isEmpty() && mes1.getText().isEmpty() && anio1.getText().isEmpty()) {
+						fechaHoy = LocalDate.now();
+					} else {
+						fechaHoy = LocalDate.of(Integer.parseInt(anio1.getText()), Integer.parseInt(mes1.getText()), Integer.parseInt(dia1.getText()));
+					}
+
 					LocalDate fechaCarta = LocalDate.of(Integer.parseInt(anio2.getText()), Integer.parseInt(mes2.getText()), Integer.parseInt(dia2.getText()));
 					Period interval = Period.between(fechaCarta, fechaHoy);
 						
-					int cantMeses =  interval.getMonths() + (interval.getYears()*12);
+					int cantMeses =  interval.getMonths() + (interval.getYears() * 12);
 					int meses2 = 0;
 					int numL = Integer.parseInt(letrasPagar.getText())-1;
 					double totalLetra = 0;
@@ -432,46 +545,52 @@ public class EyAPF extends JFrame {
 					if(interval.getDays()>7){
 						cantMeses++;
 					}
-					
-					if(Integer.parseInt(letrasPagar.getText())>1){
-						for(int i = Integer.parseInt(letrasPagar.getText()); i>0; i--){
-							meses2 += cantMeses - numL;
+
+					if (Integer.parseInt(letrasPagar.getText()) > 1) {
+						
+						for (int i = Integer.parseInt(letrasPagar.getText()); i > 0; i--) {
+							if (cantMeses >= numL) {
+								meses2 += cantMeses - numL;
+							}
 							numL--;
 						}
 					}else{
 						meses2 = cantMeses;
 					}
 					
-					if(cantMeses<=0){
+					if (cantMeses <= 0) {
 						meses2 = 0;
 					}
 					
-					mesesAtraso.setText("La cantidad de meses atrasados es: " + meses2); 
+					mesesAtraso.setText("Número de meses atrasados: " + meses2); 
 					double desc = Integer.parseInt(porcentajeDesc.getText());
 					double mensualidad = Integer.parseInt(montoLetra.getText());
 					double interes = 0;
-					
-					if(desc > 0){
+					double abonado = Double.parseDouble(abonoPrevio.getText());
+
+					if (desc > 0) {
 						interes = (mensualidad * 0.03) * (1 - desc/100);
 						interes = round(interes, 3);
-						totalInteres.setText("Total Intereses con Descuento: $" + interes * meses2);
+						liquidoPrimeraLetra.setText("Liquido primera letra con: $ " + round(mensualidad + (interes * cantMeses) - abonado, 3));
+						totalInteres.setText("Total intereses moratorios con descuento: $ " + interes * meses2);
 						totalLetra = ((mensualidad * Integer.parseInt(letrasPagar.getText())) + (interes * meses2));
 					}else{
 						interes = round((mensualidad * 0.03), 3);
-						totalInteres.setText("Total Intereses: $" + interes * meses2);
+						liquidoPrimeraLetra.setText("Liquido primera letra con: $ " + round(mensualidad + (interes * cantMeses) - abonado, 3));
+						totalInteres.setText("Total intereses moratorios: $ " + interes * meses2);
 						totalLetra = ((mensualidad * Integer.parseInt(letrasPagar.getText())) + (interes * meses2));
 					}
 					
-					totalLetrasPagadas.setText("Total letra(s) pagadas: $" + round(totalLetra, 2));
+					totalLetrasPagadas.setText("Total por pagar: $ " + round(totalLetra - abonado, 3));
 					
 					
 				}
 			}
 		});
 		c. fill = GridBagConstraints. HORIZONTAL;
-		c.gridwidth = 2;
-		c. gridx = 0;
-		c. gridy = 9;
+		c.gridwidth = 1;
+		c.gridx = 1;
+		c.gridy = 11;
 		panel.add(Pedidos, c);
     }
     
